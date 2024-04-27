@@ -38,15 +38,18 @@ sudo apt update && sudo apt install nvidia-driver nvidia-smi -y
 nvidia-smi
 
 ########### deberiamos ahora reiniciar 
+# 2 opciones, modificando el systemd o un crontab para @reboot y que cree un archivo como flag, si elarchivo existe continua desde 1 punto y si no desde el inicio
+# REINICIO
+# REINICIO
 
-# REINICIO
-# REINICIO
+
 
 
 ########### Instalacion de dependencias y  yakuake
 fucking apt install yakuake build-essential git vim xcb libxcb-util0-dev \
 libxcb-ewmh-dev libxcb-randr0-dev libxcb-icccm4-dev libxcb-keysyms1-dev \
 libxcb-xinerama0-dev libasound2-dev libxcb-xtest0-dev libxcb-shape0-dev -y
+
 
 
 
@@ -61,12 +64,20 @@ please make install
 cd examples/
 cp bspwmrc ~/.config/bspwm/
 cp sxhkdrc ~/.config/sxhkd/
+chmod +x ~/.config/bspwm/bspwmrc
+chmod +x ~/.config/sxhkd/sxhkdrc
 cd ../../sxhkd
 make
 fucking make install
 cd ~/Downloads/
 rm -rf bspwm/ sxhkd/
 mkdir ~/.config/bspwm/scripts
+
+
+
+
+
+
 
 ############ Ahora hay que traducir el sxhkdrc porque el emulador del terminal no es una kitty
 ############ Lo suyo seria usar tr (lo digo yo no porque lo haya visto en ningun sitio)
@@ -143,7 +154,7 @@ read
 ######### Instalando zsh 
 
 fucking apt install -y zsh
-
+# Opcion 0 al iniciar
 
 ######### Instalando kitty
 ######### Hay que descargarlo de https://github.com/kovidgoyal/kitty/releases/download/v0.34.1/kitty-0.34.1-x86_64.txz
@@ -173,4 +184,87 @@ mkdir $HOME/fondos
 ######## DESCARGAR ALGUN FONDO POTENTE Y METERLO EN $HOME/fondos con el nombre de fondo1.extension a ser posible
 ######### Agregar al bspwmrc la siguiente linea al final
 
-# /usr/bin/feh --bg-fill $HOME/fondos/fondoAElegir.extension 
+#echo '/usr/bin/feh --bg-fill $HOME/fondos/fondoAElegir.extension' >> $HOME/.config/bspwm/bspwmrc
+ 
+######## DESPLIEGUE DE POLYBAR
+
+cd ~/Downloads/
+git clone https://github.com/VaughnValle/blue-sky.git
+cd blue-sky/polybar
+cp -r * $HOME/.config/polybar
+echo '$HOME/.config/polybar/./launch.sh &' >> ~/.config/bspwm/bspwmrc
+cd fonts
+sudo cp * /usr/share/fonts/truetype
+sudo fc-cache -v
+
+
+###########    Picom
+
+
+
+mkdir ~/.config/picom
+cd ~/.config/picom
+curl https://raw.githubusercontent.com/unvo1d/TuneamErParrot/main/picom.conf -o picom.conf
+echo '/usr/local/bin/picom &' >> ~/.config/bspwm/bspwmrc
+
+
+######### OPCIONAL PARA BORDER DE VENTANAS 
+
+#echo 'bspc config border_width 0' >> ~/.config/bspwm/bspwmrc
+
+
+########### ZSH y Powerlevel10k
+
+
+sudo apt install zsh-autocomplete zsh-autosuggestions zsh-syntax-highlighting
+
+
+######## Cambiar las shells por defecto del usuario y root
+
+sudo usermod --shell /usr/bin/zsh root
+sudo usermod --shell /usr/bin/zsh $USER
+
+######## Instalando powerlevel10k
+##### instrucciones del repo https://github.com/romkatv/powerlevel10k
+
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+## ^ ^ ^ ^ ^ ^ ^ ^ ^ PONER RUTA ABSOLUTA PARA QUE EL LINK SIMBOLICO LUEGO NO PETE 
+
+########### CONFIGURACION P10K 
+# si no usar p10k configure
+
+# Ubicacion de archivo de conf de p10k $HOME/.p10k.zsh
+# CONFIGURAR EL ARCHIVO P10K AL GUSTO, LO STANDARD ES COMENTAR TODO LO DE RIGHT PROMP, PERO DEBERIA HACERLO A MI GUSTO
+# Y SUBIRLO AL GIT
+# en la parte de left, agregamos context, command_execution_time y status en ese orden
+# poner DIR_ANCHOR en false
+# Hay que hacer el mismo procedimiento de instalar segun las instrucciones del repo como usuario root,
+
+#aplicar link simbolico al a zshrc de root para que apunte a la del usuario 
+
+ln -s -f /home/unv0id/.zshrc /root/.zshrc 
+
+chown root:root /usr/local/share/zsh/site-functions/_bspc
+
+## SUBIR EL .ZSHRC porque lo hemos modificado bastante,
+# EJEMPLO DE OCMO PONER UN PLUGIN PARA QUE SE AUTOINICIE EN ZSHRC
+# ZSH Syntax Highlighting Plugin
+# if [ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+#     source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# fi
+
+# PLUGINS INSTALADOS : 
+# autosuggestion
+# autocomplete
+# sudo ( wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/sudo/sudo.plugin.zsh )  
+# syntax highlighting 
+
+# File History 
+# Agregar un historial poniendo esto 
+# HISTFILE=~/.zsh_history
+# HISTSIZE=10000
+# SAVEHIST=10000
+# setopt histignorealldups sharehistory # para que puedas hacer echo '' > ~/.zsh_history y limpiar el historial
+
+# Agregar el autocompletado este para mancos del pastebin https://pastebin.com/raw/H87J3nMj
