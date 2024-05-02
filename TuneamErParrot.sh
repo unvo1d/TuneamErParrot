@@ -300,3 +300,147 @@ echo $LS_COLORS | sed 's/=01;/=/g' # Para quitar los 01 del ls_colors que hace q
 # tambien hay que toquetear el .config/polybar/launch.sh bajar del github
 # Los scripts customs se van a guardar en $HOME/.config/polybar/scripts 
 
+
+################### funciones zshrc 
+#### Ya estan en el del git, pero adicionales las de set target y clear target
+
+
+### IMPORTANTE 
+### CREAR RUTA $HOME/.config/bin y crear el archivo target para que funcione la polybar de target_to_hack
+mkdir $HOME/.config/bin && touch $HOME/.config/bin/target
+
+
+
+############# AGREGAR FZF 
+### Buscador super pepino, con control + t te hace un find de lo que escribas y con control + r te busca en el historial los comandos que matcheen con lo que llevas escrito 
+# https://github.com/junegunn/fzf
+# Hacer tanto en usuario normal como en root 
+
+############# QUITAR NEOVIM PARA INSTALAR EL NVCHAD
+
+sudo apt remove neovim
+sudo apt autoremove
+
+########### INSTALR NVIM DEL GITHUB 
+# https://github.com/neovim/neovim 
+# DESCARGAR RELEASE ULTIMA 
+
+# sudo mkdir /opt/nvim 
+# mv /path/de/la/descarga /opt/nvim
+# cd /opt/nvim 
+# sudo tar -xf decarga 
+# rm descarga
+# agregar /opt/nvim/nvim-linux64/bin al path para poder llamar a nvim desde consola 
+
+
+####### INSTALAR NVCHAD DEL GITHUB
+# https://nvchad.com/docs/quickstart/install/
+# git clone https://github.com/NvChad/starter ~/.config/nvim && nvim
+
+
+####### Instalar locate 
+
+sudo apt install locate 
+sudo updatedb
+
+######### DENTRO DE NVIM 
+
+# meter -> vim.opt.listchars = "tab:»·,trail:·" en ->  ~/.config/nvim/init.lua   (justo despues de vim.g.mapleader = " " 
+
+
+# quitar de la linea 76 a la 123 de ~/.local/share/nvim/lazy/NvChad/lua/nvchad/plugins/init.lua
+ 
+
+
+# dentro de nvim :MasonInstallAll # para instalar los lenguajes de progrmacion
+
+
+# escape, luego espacio, luego t luego h para elegir tema, hay un monton, guapisimos.
+
+# ctrl + n -> abre el arbol de directorios del sistema para navegar, hiper guapo
+
+# escape + espacio + f + f -> abres para buscar los archivos del directorio con una previsualizacion
+
+# escape + espacio + f + b -> te muestra los archivos abiertos con previsualizacion para que elijas a cual quieres ir en vez de tabular
+
+# ctrl + n y una vez abnierto, pulsas a para crear archivo, pones nombre y enter
+
+# con ctrl + n abierto -> r para renombrar, c para copiar, d para borrar, p para pegar (? xd)
+
+# escape + :sp (para horizontal) \ :vsp (para vertial) -> abre una replica del documento, es el mismo, pero asi puedes navegar por documentos grandes viendo ambos trozos 
+
+# escape + espacio + c + h -> cheatshet de nvchat jeje (leader = espacio) 
+
+###################### NVIM PARA ROOT
+
+sudo mkdir /root/.config/nvim
+cd /root/.config/nvim
+sudo cp -r /home/unvo1d/.config/nvim .
+sudo mv nvim/* .
+sudo rm -rf nvim
+
+# abrir nvim y volver a poner :MasonInstallAll
+
+# abrir /root/.local/share/nvim/lazy/NvChad/lua/nvchad/plugins/init.lua y volver a quitar de la 76 a la 123
+
+
+################ rofi 
+
+mkdir -p ~/.config/rofi/themes
+
+cd /opt
+
+sudo git clone https://github.com/newmanls/rofi-themes-collection
+
+cd /opt/rofi-themescollection/themes
+
+sudo cp * /home/unv0id/.config/rofi/themes/
+
+rofi-theme-selector # para elegir un tema 
+
+# enter para preview, alt + a para aplicar la opcion
+
+
+
+################# i3lock-fancy
+
+# dependencias
+sudo apt install i3lock
+
+cd /opt
+
+sudo git clone git clone https://github.com/meskarune/i3lock-fancy.git
+
+cd i3lock-fancy
+sudo make install
+cd 
+
+# ahora a vincular el /usr/bin/i3lock-fancy en un atajo 
+
+cd ~/.config/sxhkd/
+nano sxhkdrc
+
+# agregar al final 
+# super + l 
+# 	/usr/bin/i3lock-fancy
+
+
+########################## toquecitos del firefox
+
+# no recordar historial 
+
+# en about:config escribimos browser.fixup.domainsuffixwhitelist.htb y lo establecemos a valor booleano (en true) 
+# esto intenta resolver todos los .htb en lugar de buscar en google
+
+# pluggins recomendados
+#	wappalyzer
+#	proxyfoxy
+#	para el certificado podemos abrri burp y navegar a http://burp/ o de la manera clasica manual
+
+
+
+##################### utilidades extra
+
+# ranger -> para navegar en directorios
+
+
